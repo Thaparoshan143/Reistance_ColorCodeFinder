@@ -6,6 +6,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
+#include"HeaderProto.h"
+
 //Macors Used
 #define MENU_ITEM_SIZE 3
 
@@ -53,7 +55,7 @@ void welcomeUser()
 
 void clearScreen()
 {
-    clrscr();
+    system("clear");
 }
 
 
@@ -77,6 +79,15 @@ void displayMenu()
     {
         clearScreen();
     }
+    goToMenuNumber(menuChoice);
+}
+
+void goToMenuNumber(int number)
+{
+    int temp;
+    stringInDesign(MenuList[number-1]); 
+    printf("Just holder for now:");
+    scanf("%d",&temp);
 }
 
 void main()
