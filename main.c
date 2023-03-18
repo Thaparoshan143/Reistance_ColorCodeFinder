@@ -204,6 +204,35 @@ int findColorTolerance(int number)
     }
 }
 
+int findColorOfTolerance(int number)
+{
+    if(number==20)
+    {
+        return 12;
+    }
+    else if(number==10)
+    {
+        return 11;
+    }
+    else if(number==5)
+    {
+        return 10;
+    }
+}
+
+void rePrompt()
+{
+    char cont;
+
+    printf("\n\nDo you want to continue again : (Y/N) ");
+    scanf(" %c",&cont);
+    if(cont=='Y' || cont == 'y')
+    {
+        clearScreen();
+        displayMenu();
+    }
+}
+
 
 void getInputForSubOne(int menuCh)
 {
@@ -213,8 +242,6 @@ void getInputForSubOne(int menuCh)
     int inputField=ColorInputField[menuCh-1];
     int colorArr[inputField];
     int tolerance;
-
-    char cont;
 
     stringInDesign("Input Color Code");
     printf("\nNote: from left to right. Case Insensetive");
@@ -248,22 +275,31 @@ void getInputForSubOne(int menuCh)
         printf("\nFor %d band resitor of above given color",inputField);
         printf("\nEquivalent resistance is : (%.2f ± %d per) ohm",answer,tolerance);
     
-    printf("\nDo you want to continue again : (Y/N) ");
-    scanf(" %c",&cont);
-    if(cont=='Y' || cont == 'y')
-    {
-        clearScreen();
-        displayMenu();
-    }
+    rePrompt();
 }
+
+void copyString(char* to, char* from)
+{
+    int index=0;
+    while(from[index]!='\0')
+    {
+        *(to+index)=*(from+index);
+        index++;
+    }
+    *(to+index)='\0';
+}
+
 
 void getInputForSubTwo(int menuCh)
 {
     int resisValue;
     int tolValue;
+    int tolIndex=0;
     int rem=0;
+    int multiplier=0;
 
     int maxIndex=ColorInputField[menuCh-1];
+    int colorIndex=(maxIndex!=3)?maxIndex-3:maxIndex-2;
 
     char colorCode[maxIndex][10];
 
@@ -271,21 +307,63 @@ void getInputForSubTwo(int menuCh)
     printf("\nNote : In format (Value Then Tolerance)\n");
     printf("Enter the Reistance Value Only : ");
     scanf("%d",&resisValue);
-    printf("Enter Tolerance Value Only : ");
-    scanf("%d",&tolValue);
+    if(menuCh!=1)
+    {
+        printf("Enter Tolerance Value Only : ");
+        scanf("%d",&tolValue);
+    }
     
-    int colorQuant=menuCh;
+    rem=resisValue%10;
 
-    for(int i=0;i<maxIndex-2;i++)
+    while(rem==0)
+    {
+        multiplier++;
+        resisValue=resisValue/10;
+        rem=resisValue%10;
+    }
+    
+    printf("%d - multiplier\n",multiplier);
+
+    while(colorIndex>=0)
     {
         rem=resisValue%10;
-        resisValue=resisValue/10;
+        resisValue/=10;
+        copyString(colorCode[colorIndex],colorList[rem]);
+        colorIndex--;
     }
 
-    if(menuCh==3)
+    if(menuCh!=1)
     {
-        
+        tolIndex=findColorOfTolerance(tolValue);
+        // Tolerance String Copy//
+        copyString(colorCode[maxIndex-1],colorList[tolIndex]);
     }
+
+        // Multiplier String Copy//
+    if(menuCh==1)
+        copyString(colorCode[maxIndex-1],colorList[multiplier]);
+    else
+        copyString(colorCode[maxIndex-2],colorList[multiplier]);
+
+    
+    printf("\n");
+    stringInDesign("Color Coding is as (Last is Tolerance)");
+    for(int i=0;i<maxIndex-1;i++)
+    {
+        printf("%s\t",colorCode[i]);
+    }
+
+    if(menuCh==1)
+    {
+        printf("%s\t",colorCode[maxIndex-1]);
+        printf("No Color");
+    }
+    else
+    {
+        printf("%s",colorCode[maxIndex-1]);
+    }
+
+    rePrompt();
 }
 
 void goToMenuNumber(int number)
