@@ -4,6 +4,7 @@ void stringInDesign(char* str);
 void welcomeUser();
 void clearScreen();
 void displayMenu();
+void displayColorName();
 void goToMenuNumber(int number);
 void showSubMenu();
 void subMenuFor(int menuCh, int subCh);

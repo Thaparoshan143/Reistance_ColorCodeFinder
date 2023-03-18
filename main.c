@@ -40,7 +40,6 @@ void clearScreen()
     system("clear");
 }
 
-
 void displayMenu()
 {
     welcomeUser();
@@ -64,7 +63,6 @@ void displayMenu()
         goToMenuNumber(menuChoice);
     }
 }
-
 
 void showSubMenu(int menuChoice)
 {
@@ -233,7 +231,6 @@ void rePrompt()
     }
 }
 
-
 void getInputForSubOne(int menuCh)
 {
     float answer=0;
@@ -288,7 +285,6 @@ void copyString(char* to, char* from)
     }
     *(to+index)='\0';
 }
-
 
 void getInputForSubTwo(int menuCh)
 {
